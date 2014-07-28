@@ -94,10 +94,12 @@ public class StandaloneJtaStrategy implements PersistenceStrategy {
 
     protected void commitTransaction(Object transaction) {
         UserTransaction ut = null;
-        if( ! (transaction instanceof UserTransaction) ) { 
-           throw new IllegalStateException("This persistence strategy only deals with UserTransaction instances!" );
-        } else if( transaction != null ){ 
-           ut = (UserTransaction) transaction;
+        if( transaction != null) {
+        	if (transaction instanceof UserTransaction) { 
+        		ut = (UserTransaction) transaction;
+        	} else {
+        		throw new IllegalStateException("This persistence strategy only deals with UserTransaction instances!" );
+        	}
         }
         
         try { 
